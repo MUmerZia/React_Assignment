@@ -1,0 +1,78 @@
+import React, { Component } from "react";
+
+class App extends Component {
+  constructor() {
+    super();
+    this.state = {
+      list: [{ F_name: "Muhammad", L_name: "Umer Zia" }],
+      first_Name: "",
+      Last_Name: ""
+    };
+  }
+  onchangeEvent_f = event => {
+    this.setState({
+      first_Name: event.target.value
+    });
+  };
+  onchangeEvent_L = event => {
+    if (this.state.Last_Name) {
+      alert("please enter First Name");
+      return false;
+    }
+    this.setState({
+      Last_Name: event.target.value
+    });
+  };
+  clickFunc = () => {
+    if (this.state.first_Name.length <= 6) {
+      alert("please enter six digit word");
+      return false;
+    }
+    const newList = this.state.list.concat({
+      F_name: this.state.first_Name,
+      L_name: this.state.Last_Name
+    });
+    this.setState({
+      list: newList,
+      first_Name: "",
+      Last_Name: ""
+    });
+    console.log("new list---->", newList);
+  };
+  render() {
+    const { list, first_Name, Last_Name } = this.state;
+    return (
+      <div>
+        <div>
+          <h1>Sign In Page</h1>
+        </div>
+        <div>
+          <input
+            type="text"
+            value={first_Name}
+            placeholder="Enter your First Name"
+            onChange={this.onchangeEvent_f}
+          />
+        </div>
+        <div>
+          <input
+            type="text"
+            value={Last_Name}
+            placeholder="Enter your Last Name"
+            onChange={this.onchangeEvent_L}
+          />
+        </div>
+        <div>
+          <button onClick={this.clickFunc}>Click Me</button>
+        </div>
+        <div>
+          {list.map(value => {
+            return <p>{value.F_name + " " + value.L_name}</p>;
+            // console.log("value------->>", value.F_name+value.L_name);
+          })}
+        </div>
+      </div>
+    );
+  }
+}
+export default App;
