@@ -1,0 +1,93 @@
+import React, { Component } from "react";
+import "./button.css";
+
+class App extends Component {
+  constructor(prop) {
+    super(prop);
+    this.state = {
+      list: [],
+      first_Name: "",
+      Last_Name: "",
+      isCondition: false
+    };
+  }
+  onchangeEvent_f = event => {
+    this.setState({
+      first_Name: event.target.value
+    });
+  };
+
+  onchangeEvent_L = event => {
+    this.setState({
+      Last_Name: event.target.value
+    });
+  };
+  clickFunc = () => {
+    const newList = [
+      ...this.state.list,
+      { F_name: this.state.first_Name, L_name: this.state.Last_Name }
+    ];
+    this.setState({
+      list: newList,
+      first_Name: "",
+      Last_Name: "",
+      isCondition: true
+    });
+  };
+
+  delete_Func = id => {
+    const newList = this.state.list.filter((value, index) => {
+      return index === id ? false : true;
+    });
+    this.setState({
+      list: newList
+    });
+  };
+  render() {
+    const { list, first_Name, Last_Name } = this.state;
+    return (
+      <div>
+        <div>
+          <h1 className="table-header">To Do List</h1>
+        </div>
+        <div>
+          <input
+            type="text"
+            value={first_Name}
+            placeholder="Enter your First Name"
+            onChange={this.onchangeEvent_f}
+          />
+        </div>
+        <div>
+          <input
+            type="text"
+            value={Last_Name}
+            placeholder="Enter your Last Name"
+            onChange={this.onchangeEvent_L}
+          />
+        </div>
+        <div>
+          <button onClick={this.clickFunc} className="button">
+            Click Me
+          </button>
+          {this.state.isCondition === true ? (
+            <div>
+              <h1>Data Added</h1>
+            </div>
+          ) : null}
+        </div>
+        <div>
+          {list.map((value, index) => {
+            return (
+              <div>
+                <p>{value.F_name + " " + value.L_name}</p>
+                <button onClick={() => this.delete_Func(index)}>Delete</button>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    );
+  }
+}
+export default App;
